@@ -15,45 +15,6 @@ try:
 except Exception, e:
 	from StringIO import StringIO
 
-
-def fetch(url, data=None, headers={}, timeout=None):
-    scheme, netloc, path, query, fragment = urlparse.urlsplit(url)
-    
-    if ':' in netloc:
-        host, port = netloc.rsplit(':', 1)
-        port = int(port)
-    else:
-        host, port = netloc, 80
-    
-    h = httplib.HTTPConnection(host, port)
-    if timeout is not None:
-        h.connect()
-        h.sock.settimeout(timeout)
-    
-    reqheaders = {
-        'Accept' : '*/*',
-        'User-Agent': "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0 ",
-    }
-    
-    if data is not None and isinstance(data, (basestring, dict)):
-        method = "POST"
-        reqheaders["Content-Type"] = "application/x-www-form-urlencoded"
-        # httplib will set 'Content-Length', also you can set it by yourself
-        if isinstance(data, dict):
-            data = urllib.urlencode(data)
-    else:
-        method = "GET"
-        
-    reqheaders.update(headers)
-    
-    h.request(method, url, data, reqheaders)
-    response = h.getresponse()
-    setattr(response, 'reqheaders', reqheaders)
-    setattr(response, 'body', response.read())
-    h.close()
-    
-    return response
-
 class urllibUtil(object):
 	
 	def __init__(self):
@@ -134,8 +95,8 @@ class urllibUtil(object):
 		print urllib.url2pathname(data4)    # result: D:/a/b/c/23.php 
 		
 if __name__ == '__main__':
- 	data = {'email': '523720676@qq.com', 'password':'123456ygs'}
- 	print urllib.urlencode(data)
+	data = {'email': '523720676@qq.com', 'password':'123456ygs'}
+	print urllib.urlencode(data)
 	url = 'https://github.com/login'
 	auth_handler = urllib2.HTTPBasicAuthHandler()
 	auth_handler.add_password(

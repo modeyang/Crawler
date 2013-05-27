@@ -40,7 +40,7 @@ class ServerCurl(object):
 		self.curl.setopt(pycurl.USERAGENT, random.choice(user_agents))
 
 		if self.data is not None:
-			self.setopt(crl.POSTFIELDS,  urllib.urlencode(self.data))
+			self.setopt(pycurl.POSTFIELDS,  urllib.urlencode(self.data))
 
 		# self.curl.setopt(pycurl.COOKIEFILE, "cookie_file_name")
 		self.curl.setopt(pycurl.URL, self.url.encode('utf-8'))
