@@ -1,10 +1,6 @@
 #!/usr/bin/python
 #coding=utf-8
 import sys, os
-
-# reload(sys)
-# sys.setdefaultencoding('utf-8')
-
 project_path = os.path.dirname(__file__)
 project_path = os.path.join(project_path, '..')
 sys.path.append(project_path)
@@ -12,7 +8,9 @@ sys.path.append(project_path)
 import re
 import time
 from BeautifulSoup import BeautifulSoup, BeautifulStoneSoup
-from Life_Sqlite import Article, LifeDBUtils, Theme
+from Life_Sqlite import Article, Theme
+from DBUtils import LifeDBUtils
+
 from Life_Articles import ArticleCrawler
 from urlparse import urljoin
 from Utils import *
@@ -92,8 +90,6 @@ class  LiftCrawler(object):
 				session.commit()
 
 if __name__ == '__main__':
-	pass
-
 	starturl = 'http://love.heima.com'
 	# starturl = 'http://love.heima.com/html/c37/49262.shtm'
 	# starturl = 'http://love.heima.com/html/c47/54155.shtm'

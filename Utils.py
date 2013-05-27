@@ -3,9 +3,6 @@
 
 import sys, os
 
-# reload(sys)
-# sys.setdefaultencoding('utf-8')
-
 project_path = os.path.dirname(__file__)
 project_path = os.path.join(project_path, '..')
 sys.path.append(project_path)
@@ -13,7 +10,7 @@ sys.path.append(project_path)
 from BeautifulSoup import BeautifulSoup, BeautifulStoneSoup
 from lxml.html.clean import Cleaner
 from Servercurl import ServerCurl
-from urllibtest import urllibUtil
+from urllibUtil import urllibUtil
 from urlparse import urljoin
 
 def getBaseUrl(url):
@@ -31,11 +28,22 @@ def cleanUrl(url):
 	 	url = url.strip('/')
 	return url
 
+
+def mb_code(str, coding="utf-8"):
+    if isinstance(str, unicode):
+        return str.encode(coding)
+    for c in ('utf-8', 'gb18030', 'gbk', 'gb2312'):
+        try:
+            return str.decode(c).encode(coding)
+        except:
+            pass
+    return str
+    
 def getHtmlSoup(url):
 	try:
 		cleaner = Cleaner(page_structure=False, links=False, meta=False, safe_attrs_only=False)
 		# htmls = cleaner.clean_html(urllibUtil().getHtmls(url))
-		htmls = cleaner.clean_html(ServerCurl().fetchurl(url))
+		htmls = cleaner.clean_html(ServerCurl(url).fetchurl())
 		return BeautifulSoup(htmls, convertEntities=BeautifulStoneSoup.HTML_ENTITIES)
 	except Exception, e:
 		pass
@@ -44,7 +52,6 @@ def getHtmlSoup(url):
 
 if __name__ == '__main__':
 	pass
-	# pass
 
 	# import re
 	# content = '''<!--

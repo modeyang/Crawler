@@ -5,9 +5,8 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 import md5
-from sqlalchemy import Column, Integer, String, ForeignKey, create_engine
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 
 
 Base = declarative_base()
@@ -56,48 +55,4 @@ class Theme(Base):
 	def __str__(self):
 		return "%s %s %s " % (self.name, self.url, self.category)
 		
-engine = create_engine("sqlite:///articles.db" , echo=True)
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-
-class  LifeDBUtils(object):
-	
-	def __init__(self, name='articles'):
-		self.session = Session()
-		self.conn  = engine.connect()
-
-	def addArticle(self, articles, commit=False):
-		if isinstance(articles, (tuple, list)):
-			self.session.add_all(articles)
-		else:
-			self.session.add(articles)
-
-		if commit:
-			self.session.commit()
-
-	def ExecuteRawSQL(sql):
-		try:
-			result = LifeDBUtils.conn.execute(sql)
-		except Exception, e:
-			return None
-
-	def addTheme(self, theme, commit=False):
-		if theme:
-			self.session.add(theme)
-
-			if commit:
-				self.session.commit()
-
-	def getSession(self):
-		return self.session or None
-
-	def commit(self):
-		self.session.commit()
-
-
-if __name__ == '__main__':
-    # pass
-	session = LifeDBUtils().session
-	session.query(Theme).filter_by(id=70).update({'isloaded' : 1})
-	session.commit()
 		

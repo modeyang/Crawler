@@ -12,7 +12,8 @@ sys.path.append(project_path)
 
 import re
 from BeautifulSoup import BeautifulSoup
-from Life_Sqlite import Article, LifeDBUtils, Theme
+from Life_Sqlite import Article, Theme
+from DBUtils import LifeDBUtils
 from urlparse import urljoin
 from Utils import *
 
