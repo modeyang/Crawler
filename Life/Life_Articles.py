@@ -102,6 +102,7 @@ class  ArticleCrawler(object):
 			print content
 			article = Article(self.url, title, content, keywords, category, desc)
 			self.DBUtils.addArticle(article, commit=True)
+			self.DBUtils.close()
 			return True
 		return False
 

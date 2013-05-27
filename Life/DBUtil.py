@@ -7,17 +7,22 @@ sys.path.append(project_path)
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-
 from Public.Tables import *
 
 engine = create_engine("sqlite:///articles.db" , echo=True)
 Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
+DBSession = scoped_session(
+	sessionmaker(
+		bind=engine,
+		autoflush=True,
+		autocommit=False
+	)
+)
 
 class  LifeDBUtils(object):
 	
 	def __init__(self, name='articles'):
-		self.session = Session()
+		self.session = DBSession()
 		self.conn  = engine.connect()
 
 	def addArticle(self, articles, commit=False):
@@ -47,6 +52,9 @@ class  LifeDBUtils(object):
 
 	def commit(self):
 		self.session.commit()
+		
+	def close(self):
+		self.session.close()
 
 if __name__ == '__main__':
 	session = LifeDBUtils().session

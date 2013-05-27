@@ -89,6 +89,7 @@ class  LiftCrawler(object):
 				break
 				# session.query(Theme).filter_by(id=theme.id).update({'isloaded' : 1}, synchronize_session=False)
 				# session.commit()
+		self.DBUtil.close()
 
 if __name__ == '__main__':
 	starturl = 'http://love.heima.com'
