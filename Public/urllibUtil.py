@@ -1,21 +1,24 @@
 #!/usr/bin/env python
 
+import sys, os
+
+project_path = os.path.dirname(__file__)
+project_path = os.path.join(project_path, '..')
+sys.path.append(project_path)
+
 import urllib2, urllib, cookielib
-import socket, random, os
-import time
+import socket, random
+import gzip
+
+try:
+	from cStringIO import StringIO
+except Exception, e:
+	from StringIO import StringIO
 
 class urllibUtil(object):
-	ERROR = {
-        '0':'Can not open the url,checck you net',
-        '1':'Creat download dir error',
-        '2':'The image links is empty',
-        '3':'Download faild',
-        '4':'Build soup error,the html is empty',
-        '5':'Can not save the image to your disk',
-    }
 	
 	def __init__(self):
-		socket.setdefaulttimeout(20)
+		socket.setdefaulttimeout(10)
 	
 	def openUrl(self, url, data=None):
 		cookie_support = urllib2.HTTPCookieProcessor(cookielib.CookieJar())
@@ -26,15 +29,15 @@ class urllibUtil(object):
 		# opener = urllib2.build_opener(proxy_support, urllib2.HTTPHandler)
 		# urllib2.install_opener(opener)
 		user_agents = [
-					'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11',
-                    'Opera/9.25 (Windows NT 5.1; U; en)',
-                    'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)',
-                    'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)',
-                    'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.12) Gecko/20070731 Ubuntu/dapper-security Firefox/1.5.0.12',
-                    'Lynx/2.8.5rel.1 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/1.2.9',
-                    "Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.7 (KHTML, like Gecko) Ubuntu/11.04 Chromium/16.0.912.77 Chrome/16.0.912.77 Safari/535.7",
-                    "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0 ",
-					]
+			'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11',
+            'Opera/9.25 (Windows NT 5.1; U; en)',
+            'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)',
+            'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)',
+            'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.12) Gecko/20070731 Ubuntu/dapper-security Firefox/1.5.0.12',
+            'Lynx/2.8.5rel.1 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/1.2.9',
+            "Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.7 (KHTML, like Gecko) Ubuntu/11.04 Chromium/16.0.912.77 Chrome/16.0.912.77 Safari/535.7",
+            "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0 ",
+		]
 		
 		agent = random.choice(user_agents)
 		self.opener.addheaders = [('User-agent', agent),("Accept","*/*"),('Referer',url)]
@@ -45,9 +48,8 @@ class urllibUtil(object):
 		return handler
 
 	def getHtmls(self, url):
-		handler = self.openUrl(url)
-		return handler.read()
 		try:
+			handler = self.openUrl(url)
 			if handler.headers.has_key('content-encoding'):
 				if 'gzip' in handler.headers['content-encoding']:
 					fileobj = StringIO()
@@ -93,16 +95,16 @@ class urllibUtil(object):
 		print urllib.url2pathname(data4)    # result: D:/a/b/c/23.php 
 		
 if __name__ == '__main__':
-# 	href = 'http://down.51voa.com/201303/us-budget-impasse-could-affect-air-travel.mp3'
-# 	urllibUtil.retrievefile(href)
- 	data = {'email': '523720676@qq.com', 'password':'123456ygs'}
- 	print urllib.urlencode(data)
+	data = {'email': '523720676@qq.com', 'password':'123456ygs'}
+	print urllib.urlencode(data)
 	url = 'https://github.com/login'
 	auth_handler = urllib2.HTTPBasicAuthHandler()
-	auth_handler.add_password(realm='PDQ Application',
+	auth_handler.add_password(
+							realm='PDQ Application',
 							uri='https://github.com/login',
 							user='523720676@qq.com',
 							passwd='123456ygs')
+
 	opener = urllib2.build_opener(auth_handler)
 	urllib2.install_opener(opener)
 
@@ -111,19 +113,4 @@ if __name__ == '__main__':
 	print handler.info()
 	print handler.geturl()
 	
-	try:
-		from cStringIO import StringIO
-	except Exception, e:
-		from StringIO import StringIO
-	import gzip
-	
-	if handler.headers.has_key('content-encoding'):
-		fileobj = StringIO()
-		fileobj.write(handler.read())
-		fileobj.seek(0)
-		gzip_file = gzip.GzipFile(fileobj = fileobj)
-		context = gzip_file.read()
-	else:
-		context = handler.read()
-	# print context
 	

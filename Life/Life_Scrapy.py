@@ -8,12 +8,12 @@ sys.path.append(project_path)
 import re
 import time
 from BeautifulSoup import BeautifulSoup, BeautifulStoneSoup
-from Life_Sqlite import Article, Theme
-from DBUtils import LifeDBUtils
+from Public.Tables import Article, Theme
+from DBUtil import LifeDBUtils
 
 from Life_Articles import ArticleCrawler
 from urlparse import urljoin
-from Utils import *
+from Public.Utils import *
 from sqlalchemy import and_, or_
 
 
@@ -86,8 +86,9 @@ class  LiftCrawler(object):
 		for theme in themes:
 			crawler = ArticleCrawler(theme.url)
 			if crawler.startScrapy():
-				session.query(Theme).filter_by(id=theme.id).update({'isloaded' : 1}, synchronize_session=False)
-				session.commit()
+				break
+				# session.query(Theme).filter_by(id=theme.id).update({'isloaded' : 1}, synchronize_session=False)
+				# session.commit()
 
 if __name__ == '__main__':
 	starturl = 'http://love.heima.com'

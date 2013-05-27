@@ -1,17 +1,15 @@
-#!/usr/bin/py
-#coding=utf-8
+# !/usr/bin/py
+# coding=utf-8
 
 import sys, os
-
 project_path = os.path.dirname(__file__)
 project_path = os.path.join(project_path, '..')
 sys.path.append(project_path)
 
 from BeautifulSoup import BeautifulSoup, BeautifulStoneSoup
 from lxml.html.clean import Cleaner
-from Servercurl import ServerCurl
-from urllibUtil import urllibUtil
-from urlparse import urljoin
+from Server.Servercurl import ServerCurl
+from Server.urllibUtil import urllibUtil
 
 def getBaseUrl(url):
 	urls = url.split(r'/')
@@ -24,21 +22,21 @@ def cleanUrl(url):
 
 	url = url.strip('/')
 	while url.startswith('..'):
-	 	url = url[2:]
-	 	url = url.strip('/')
+		url = url[2:]
+		url = url.strip('/')
 	return url
 
 
 def mb_code(str, coding="utf-8"):
-    if isinstance(str, unicode):
-        return str.encode(coding)
-    for c in ('utf-8', 'gb18030', 'gbk', 'gb2312'):
-        try:
-            return str.decode(c).encode(coding)
-        except:
-            pass
-    return str
-    
+	if isinstance(str, unicode):
+		return str.encode(coding)
+	for c in ('utf-8', 'gb18030', 'gbk', 'gb2312'):
+		try:
+			return str.decode(c).encode(coding)
+		except:
+			pass
+	return str
+
 def getHtmlSoup(url):
 	try:
 		cleaner = Cleaner(page_structure=False, links=False, meta=False, safe_attrs_only=False)

@@ -1,8 +1,14 @@
 #!/usr/bin/python
 #coding=utf-8
+import sys, os
+project_path = os.path.dirname(__file__)
+project_path = os.path.join(project_path, '..')
+sys.path.append(project_path)
+
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-from Life_Sqlite import Base, Theme, Article
+
+from Public.Tables import *
 
 engine = create_engine("sqlite:///articles.db" , echo=True)
 Base.metadata.create_all(engine)
@@ -23,7 +29,7 @@ class  LifeDBUtils(object):
 		if commit:
 			self.session.commit()
 
-	def ExecuteRawSQL(sql):
+	def ExecuteRawSQL(self, sql):
 		try:
 			result = LifeDBUtils.conn.execute(sql)
 		except Exception, e:

@@ -2,20 +2,16 @@
 #coding=utf-8
 
 import sys, os
-
-# reload(sys)
-# sys.setdefaultencoding('utf-8')
-
 project_path = os.path.dirname(__file__)
 project_path = os.path.join(project_path, '..')
 sys.path.append(project_path)
 
 import re
-from BeautifulSoup import BeautifulSoup
-from Life_Sqlite import Article, Theme
-from DBUtils import LifeDBUtils
+# from BeautifulSoup import BeautifulSoup
+from Public.Tables import Article, Theme
+from DBUtil import LifeDBUtils
 from urlparse import urljoin
-from Utils import *
+from Public.Utils import *
 
 
 class  ArticleCrawler(object):
@@ -75,7 +71,6 @@ class  ArticleCrawler(object):
 			pConts = conSoup.findAll('p')
 			contents = ''
 			if len(pConts) == 0:
-				# contents += conSoup.text
 				for node in conSoup.contents:
 					attr = getattr(node, 'name', None)
 					if attr == 'br' or attr == 'a':
@@ -105,8 +100,8 @@ class  ArticleCrawler(object):
 		print title, category
 		if len(content) > 0:
 			print content
-			# article = Article(self.url, title, content, keywords, category, desc)
-			# self.DBUtils.addArticle(article, commit=True)
+			article = Article(self.url, title, content, keywords, category, desc)
+			self.DBUtils.addArticle(article, commit=True)
 			return True
 		return False
 

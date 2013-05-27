@@ -1,13 +1,14 @@
-#!/usr/bin/py
-#coding = utf8
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
+#!/usr/bin/python
+#coding = utf-8
+
+import sys, os
+project_path = os.path.dirname(__file__)
+project_path = os.path.join(project_path, '..')
+sys.path.append(project_path)
 
 import md5
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-
 
 Base = declarative_base()
 class Article(Base):
@@ -54,5 +55,7 @@ class Theme(Base):
 
 	def __str__(self):
 		return "%s %s %s " % (self.name, self.url, self.category)
+	
+__all__ = ['Base', 'Article', 'Theme']
 		
 		
