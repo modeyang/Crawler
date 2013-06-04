@@ -5,7 +5,7 @@ project_path = os.path.dirname(__file__)
 project_path = os.path.join(project_path, '..')
 sys.path.append(project_path)
 
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
 from Public.Tables import *
 

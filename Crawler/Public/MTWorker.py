@@ -1,6 +1,7 @@
 #!/usr/bin/python
 #coding=utf-8
 import sys, os
+import time
 project_path = os.path.dirname(__file__)
 project_path = os.path.join(project_path, '..')
 sys.path.append(project_path)
@@ -20,13 +21,12 @@ class MTWorker(threading.Thread):
 	def run(self):
 		while True:
 			try:
-				url = self.task_queue.get(False)
+				data = self.task_queue.get(block=False)
 				if self.processor is not None:
-					self.processor(url)
+					self.processor(data)
 					
 				self.task_queue.task_done()
 
 			except QueueEmpty:
-				break
-				
-
+				time.sleep(1)
+			

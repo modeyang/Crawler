@@ -70,14 +70,13 @@ class  LiftCrawler(object):
 
 
 	def run(self):
-		# self.get_all_theme()
-		
+		self.get_all_theme()
 		session = self.DBUtil.getSession()
 
 		# get all article of theme
-		# themes = session.query(Theme).filter(Theme.category == 'Child').all()
-		# for th in themes:
-		# 	self.get_theme_articleInfo(th.name, th.url)
+		themes = session.query(Theme).filter(Theme.category == 'Child').all()
+		for th in themes:
+			self.get_theme_articleInfo(th.name, th.url)
 		
 		# query child url
 		themes = session.query(Theme).filter(\
@@ -86,9 +85,8 @@ class  LiftCrawler(object):
 		for theme in themes:
 			crawler = ArticleCrawler(theme.url)
 			if crawler.startScrapy():
-				break
-				# session.query(Theme).filter_by(id=theme.id).update({'isloaded' : 1}, synchronize_session=False)
-				# session.commit()
+				session.query(Theme).filter_by(id=theme.id).update({'isloaded' : 1}, synchronize_session=False)
+				session.commit()
 		self.DBUtil.close()
 
 if __name__ == '__main__':
