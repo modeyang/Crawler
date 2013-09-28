@@ -1,14 +1,11 @@
 #!/usr/bin/python
 #coding=utf-8
 import sys, os
-project_path = os.path.dirname(__file__)
-project_path = os.path.join(project_path, '..')
-sys.path.append(project_path)
 
 import re
 import time
 from BeautifulSoup import BeautifulSoup, BeautifulStoneSoup
-from Public.Tables import Article, Theme
+from Crawler.Public.Tables import Article, Theme
 from DBUtil import LifeDBUtils
 
 from Life_Articles import ArticleCrawler
@@ -94,6 +91,6 @@ if __name__ == '__main__':
 	# starturl = 'http://love.heima.com/html/c37/49262.shtm'
 	# starturl = 'http://love.heima.com/html/c47/54155.shtm'
 	# LiftCrawler(starturl).CrapyOnTheme('', starturl)
-	LiftCrawler(starturl).run()
+	# LiftCrawler(starturl).run()
 	# ArticleCrawler(starturl).startScrapy()
 	# print ArticleCrawler(starturl).getNextUrl()

@@ -2,14 +2,11 @@
 # coding=utf-8
 
 import sys, os
-project_path = os.path.dirname(__file__)
-project_path = os.path.join(project_path, '..')
-sys.path.append(project_path)
 
 from BeautifulSoup import BeautifulSoup, BeautifulStoneSoup
 from lxml.html.clean import Cleaner
-from Server.Servercurl import ServerCurl
-from Server.urllibUtil import urllibUtil
+from Crawler.Server.Servercurl import ServerCurl
+from Crawler.Server.urllibUtil import urllibUtil
 
 def getBaseUrl(url):
 	urls = url.split(r'/')

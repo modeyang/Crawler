@@ -2,9 +2,6 @@
 #coding=utf-8
 import sys, os
 import time
-project_path = os.path.dirname(__file__)
-project_path = os.path.join(project_path, '..')
-sys.path.append(project_path)
 
 import threading
 from Queue import Queue, Empty as QueueEmpty

@@ -2,10 +2,6 @@
 #coding=utf-8
 
 import sys, os
-project_path = os.path.dirname(__file__)
-project_path = os.path.join(project_path, '..')
-sys.path.append(project_path)
-
 import pycurl
 import StringIO
 import socket

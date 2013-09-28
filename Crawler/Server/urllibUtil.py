@@ -1,11 +1,6 @@
 #!/usr/bin/env python
 
 import sys, os
-
-project_path = os.path.dirname(__file__)
-project_path = os.path.join(project_path, '..')
-sys.path.append(project_path)
-
 import urllib2, urllib, cookielib
 import socket, random
 import time

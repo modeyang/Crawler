@@ -2,16 +2,11 @@
 #coding=utf-8
 
 import sys, os
-project_path = os.path.dirname(__file__)
-project_path = os.path.join(project_path, '..')
-sys.path.append(project_path)
-
 import re
-# from BeautifulSoup import BeautifulSoup
-from Public.Tables import Article, Theme
+from Crawler.Public.Tables import Article, Theme
 from DBUtil import LifeDBUtils
 from urlparse import urljoin
-from Public.Utils import *
+from Crawler.Public.Utils import *
 
 
 class  ArticleCrawler(object):
@@ -107,4 +102,4 @@ class  ArticleCrawler(object):
 
 if __name__ == '__main__':
 	url = 'http://love.heima.com/HunLiChouBei/54498.shtm'
-	ArticleCrawler(url).startScrapy()
+	# ArticleCrawler(url).startScrapy()
